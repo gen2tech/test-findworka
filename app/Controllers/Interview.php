@@ -11,8 +11,8 @@ class Interview extends Controller{
 	}
 	
 	
-	public function getBooks(){
-		$data =  $this->helper->getBooks();
+	public function getBooks($perPage=50, $page=0){
+		$data =  $this->helper->getBooks($page,$perPage);
 		if($data){
 			return $this->process($data)->send();
 		}else{
@@ -31,12 +31,12 @@ class Interview extends Controller{
 	}
 
 	
-	public function getCharacters($sort,$order = 'asc'){
+	public function getSortedCharacters($sort,$order = 'asc',$perPage=50, $page=0){
 		$sortArr = ['name','age','gender'];	
 		if(!in_array(strtolower($sort),$sortArr)){
 			return $this->process(['error'=>'Please use keyword "name" or "age" or "gender" to sort characters'],203)->send();
 		}	
-		$data =  $this->helper->getCharacters();
+		$data =  $this->helper->getCharacters($page,$perPage);
 
 		// work on the charachers
 		$characters = $data['characters'];
@@ -64,12 +64,12 @@ class Interview extends Controller{
 		}
 	}
 
-	public function getFilteredCharacters($filter){
+	public function getFilteredCharacters($filter,$perPage=50, $page=0){
 		$filterArr = ['Male','Female'];	
 		if(!in_array(ucfirst($filter),$filterArr)){
 			return $this->process(['error'=>'Please use keyword "male" or "female" to filter characters by gender'],203)->send();
 		}	
-		$data =  $this->helper->getCharacters();
+		$data =  $this->helper->getCharacters($page,$perPage);
 
 		// work on the charachers
 		$characters = $data['characters'];
@@ -88,7 +88,7 @@ class Interview extends Controller{
 	}
 
 
-	public function addBookComment(){
+	public function saveBookComment(){
 		$bookId = RouterRequest::postData('book_id');
 		$commenter = RouterRequest::postData('commenter', true);
 		$comment = RouterRequest::postData('comment', true);
@@ -124,7 +124,7 @@ class Interview extends Controller{
 
 
 	public function getBookComments($bookId){
-		$sql = "SELECT * FROM `comments` WHERE `book_id` =  $bookId ";
+		$sql = "SELECT * FROM `comments` WHERE `book_id` =  $bookId ORDER BY `date` DESC ";
 		$data = $this->db->fetchAllRows($sql);
 
 		if($data){			

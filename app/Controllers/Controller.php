@@ -67,7 +67,7 @@ class Controller{
 
     public function __construct(){
 		$this->helper = new Helper();
-        $this->db = Sqlite::getInstance(DB_FILE);
+        $this->db = $this->helper->getDB();
         if(!$this->db->table_exists('comments')){
             $createTable = "CREATE TABLE IF NOT EXISTS comments (
                                 id INTEGER PRIMARY KEY AUTOINCREMENT,

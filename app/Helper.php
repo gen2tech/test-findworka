@@ -2,8 +2,18 @@
 namespace App;
 
 use Inf\Router\RouterRequest;
+use App\Sqlite;
 class Helper{
+
+	private $db;
 	
+	public function __construct(){
+		$this->db = Sqlite::getInstance(DB_FILE);
+	}
+
+	public function getDB(){
+		return $this->db;
+	}
 
    /**
      *
@@ -23,8 +33,14 @@ class Helper{
    }
 
 
-	public function getBooks($addCharacters=false){
-		$list = $this->getApiData('books?pageSize=50');
+	public function getBooks($page=null, $perPage=50,$addCharacters=false){
+		$endpont = 'books';
+		if(!empty($page)){
+			$endpont .= "?page=$page&pageSize=$perPage";
+		}else{
+			$endpont .= "?pageSize=$perPage";
+		}
+		$list = $this->getApiData($endpont);
 
 		$data = [];
 		foreach($list AS $book){
@@ -45,11 +61,10 @@ class Helper{
 			$data[$key]['publisher'] = $book['publisher'];
 			$data[$key]['country'] = $book['country'];
 			$data[$key]['mediaType'] = $book['mediaType'];
-			$data[$key]['mediaType'] = $book['mediaType'];
+			$data[$key]['comments_count'] = $this->getBookCommentCount($bookId);
 			if(True === $addCharacters){
 				$data[$key]['characters'] = $book['characters'];
 			}
-			//$data[$key]['comments_count'] = $this->getCommentCount($bookId);
 			 
 		}
 
@@ -82,7 +97,7 @@ class Helper{
 		if(True === $addCharacters){
 			$data['characters'] = $book['characters'];
 		}
-		//$data['comments_count'] = $this->getCommentCount($bookId);
+		$data['comments_count'] = $this->getBookCommentCount($bookId);
 		//$data['comments'] = $this->getComments($bookId);
 		return $data;
 	}
@@ -91,8 +106,14 @@ class Helper{
 	
 
 
-	public function getCharacters($sort=false){
-		$list = $this->getApiData('characters?pageSize=50');
+	public function getCharacters($page=null, $perPage=50){
+		$endpont = 'characters';
+		if(!empty($page)){
+			$endpont .= "?page=$page&pageSize=$perPage";
+		}else{
+			$endpont .= "?pageSize=$perPage";
+		}
+		$list = $this->getApiData($endpont);
 		
 		$info = $data = [];
 		$info['character_count'] = count($list);
@@ -128,7 +149,16 @@ class Helper{
             } 
           } 
       return $new_array; 
-    } 
+	} 
+	
+
+	
+
+	public function getBookCommentCount($bookId){
+		$sql = "SELECT COUNT(*) AS `count` FROM `comments` WHERE `book_id` =  $bookId ORDER BY `date` DESC ";
+		$data = $this->db->fetchOneRow($sql);
+		return $data['count'];
+	}
 
 
 
