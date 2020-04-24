@@ -152,6 +152,7 @@ class Interview extends Controller{
 
 	
 	public function getDocs(){
+		global $apiUrl;
 		echo <<<EOT
 
 		<!DOCTYPE html>
@@ -225,10 +226,10 @@ class Interview extends Controller{
 										<p>In order to get Books Data, a request using GET method to any of the following API resource will get the response data in a json Format</p>
 										
 										<code>
-											$ curl http://localhost/interview/get_books<br/>
-											$ curl http://localhost/interview/get_books?page=2<br/>
-											$ curl http://localhost/interview/get_books?perPage=5<br/>
-											$ curl http://localhost/interview/get_books?page=2&perPage=5<br/>
+											$ curl $apiUrl/get_books<br/>
+											$ curl $apiUrl/get_books?page=2<br/>
+											$ curl $apiUrl/get_books?perPage=5<br/>
+											$ curl $apiUrl/get_books?page=2&perPage=5<br/>
 										</code>
 										
 										<p>Book names in the book list endpoint are sorted by release date from earliest to newest and each book are listed along with authors </p>
@@ -242,7 +243,7 @@ class Interview extends Controller{
 									<div>
 		
 											<h5>List all books:</h5>
-											<code>$ curl 'http://localhost/interview/get_books?page=1&perPage=3'</code>
+											<code>$ curl '$apiUrl/get_books?page=1&perPage=3'</code>
 											<p>
 												<strong>Example response:</strong>
 											</p>
@@ -308,7 +309,7 @@ class Interview extends Controller{
 										</ol>
 										
 										<h4>For Sorted Characters</h4>
-										<p>For Sorted Characters base API URL is http://localhost/interview/get_sorted_characters/{sortWith} Where sortWith is any of the keywords (name,gender,age). Note that the sortWith is required
+										<p>For Sorted Characters base API URL is $apiUrl/get_sorted_characters/{sortWith} Where sortWith is any of the keywords (name,gender,age). Note that the sortWith is required
 										</p>
 										<p>The next segment in MVC URL for getting sorted characters is the 'order' which can be any of 'asc' or 'desc'. Default asc</p>
 										<p>Then they query strings as stated above defines how many characters per page? (ie.perPage) then what page?(ie.page)</p>
@@ -316,24 +317,24 @@ class Interview extends Controller{
 										
 										<h4>Example API URL</h4>
 										<code>
-											$ curl http://localhost/interview/get_sorted_characters/name?page=2<br/>
-											$ curl http://localhost/interview/get_sorted_characters/name/desc?page=2<br/>
-											$ curl http://localhost/interview/get_sorted_characters/gender/desc?page=2<br/>
-											$ curl http://localhost/interview/get_sorted_characters/name?page=2&perPage=5<br/>
-											$ curl http://localhost/interview/get_sorted_characters/name/desc?page=2&perPage=5<br/>
-											$ curl http://localhost/interview/get_sorted_characters/gender/desc?page=2&perPage=5<br/>
+											$ curl $apiUrl/get_sorted_characters/name?page=2<br/>
+											$ curl $apiUrl/get_sorted_characters/name/desc?page=2<br/>
+											$ curl $apiUrl/get_sorted_characters/gender/desc?page=2<br/>
+											$ curl $apiUrl/get_sorted_characters/name?page=2&perPage=5<br/>
+											$ curl $apiUrl/get_sorted_characters/name/desc?page=2&perPage=5<br/>
+											$ curl $apiUrl/get_sorted_characters/gender/desc?page=2&perPage=5<br/>
 										</code>
 										
 										
 										<h4>For Filtered Characters</h4>
-										<p>For Filtered Characters base API URL is http://localhost/interview/get_filtered_characters/{filterWith} Where filterWith is any of the keywords (male or famale). Note that the filterWith is required</p>
+										<p>For Filtered Characters base API URL is $apiUrl/get_filtered_characters/{filterWith} Where filterWith is any of the keywords (male or famale). Note that the filterWith is required</p>
 										<p>Then they query strings as stated above defines how many characters per page? (ie.perPage) then what page?(ie.page)</p>
 										<h4>Example API URL</h4>
 										<code>
-											$ curl http://localhost/interview/get_filtered_characters/male?page=2<br/>
-											$ curl http://localhost/interview/get_filtered_characters/female?page=2<br/>
-											$ curl http://localhost/interview/get_filtered_characters/male?page=2&perPage=5<br/>
-											$ curl http://localhost/interview/get_filtered_characters/female?page=2&perPage=5<br/>
+											$ curl $apiUrl/get_filtered_characters/male?page=2<br/>
+											$ curl $apiUrl/get_filtered_characters/female?page=2<br/>
+											$ curl $apiUrl/get_filtered_characters/male?page=2&perPage=5<br/>
+											$ curl $apiUrl/get_filtered_characters/female?page=2&perPage=5<br/>
 										</code>
 										
 										</div> 
@@ -345,7 +346,7 @@ class Interview extends Controller{
 										<h3>To Get Comments:</h3>
 										<p>In order to get Comments or add comment, a request using GET method or POST method (for getting comments and adding comments repectively) to any of the following API resource will get the response data in a json Format</p>
 										
-										<p>For getting comments, a GET request is sent to <code>http://localhost/interview/get_book_comments/{book_id}</code> where 'book_id' is the ID of the book a commenter commented on</p>
+										<p>For getting comments, a GET request is sent to <code>$apiUrl/get_book_comments/{book_id}</code> where 'book_id' is the ID of the book a commenter commented on</p>
 										
 										<h5>Notes on Comments Retrieval</h5>
 										<p>
@@ -355,7 +356,7 @@ class Interview extends Controller{
 											Comment length are limited to 500 characters
 										</p>
 										
-										<p>For adding comments, a POST request is sent to <code>http://localhost/interview/save_book_comment</code> posting with the following parameters</p>
+										<p>For adding comments, a POST request is sent to <code>$apiUrl/save_book_comment</code> posting with the following parameters</p>
 										
 										<ol>
 											<li>{book_id} => The ID of the book a commenter wants to comment on</li>
