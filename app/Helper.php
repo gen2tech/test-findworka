@@ -71,7 +71,7 @@ class Helper{
 		krsort($data);
 
 		//return $list;
-		return $data;
+		return array_values($data);
 	}
 
 

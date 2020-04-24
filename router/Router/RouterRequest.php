@@ -132,7 +132,22 @@ class RouterRequest
         }
 
         return $headers;
-    }
+	}
+	
+
+	
+	/**
+	 * Fetch an item from the GET array
+	 *
+	 * @param	mixed	$index		Index for item to be fetched from $_GET
+	 * @param	bool	$xss_clean	Whether to apply XSS filtering
+	 * @return	mixed
+	 */
+	public function getData($index = NULL, $xss_clean = FALSE)
+	{
+		return Self::_fetch_from_array($_GET, $index, $xss_clean);
+	}
+
 
 
     /**
