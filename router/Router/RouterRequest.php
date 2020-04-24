@@ -182,7 +182,7 @@ class RouterRequest
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function serverData($index, $xss_clean = FALSE)
+	public static function serverData($index, $xss_clean = FALSE)
 	{
 		return Self::_fetch_from_array($_SERVER, $index, $xss_clean);
 	}
